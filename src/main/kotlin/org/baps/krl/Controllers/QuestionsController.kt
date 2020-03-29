@@ -27,4 +27,11 @@ class QuestionsController(
 
         return questionsService.getQuestionsByRound(roundsService.getCurrentRound())
     }
+
+    @GetMapping("/getTeams")
+    @CrossOrigin()
+    fun getTeams(): Iterable<Question>{
+
+        return questionsService.getQuestionsByRound(roundsService.getCurrentRound())
+    }
 }
