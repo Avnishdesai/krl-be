@@ -6,49 +6,77 @@ import javax.persistence.*
 
 @Entity
 class Member(
-        @Id @GeneratedValue var id: Int,
-        var name: String
+        @Id @GeneratedValue val id: Int,
+        val name: String
 
 )
 
 @Entity
 class Round(
-        @Id @GeneratedValue var id: Int,
-        var seq: Int,
-        var startDate: Date,
-        var endDate: Date
+        @Id @GeneratedValue val id: Int,
+        val seq: Int,
+        val startDate: Date,
+        val endDate: Date
 )
 
 
 @Entity
 class Team(
-        @Id @GeneratedValue var id: Int,
-        var name: String,
-        @ManyToOne var round: Round
+        @Id @GeneratedValue val id: Int,
+        val name: String,
+        @ManyToOne val round: Round
 )
 
 @Entity
 class TeamMember(
-        @Id @GeneratedValue var id: Int,
-        @ManyToOne var round: Round,
-        @OneToOne var member: Member,
-        @ManyToOne var team: Team
+        @Id @GeneratedValue val id: Int,
+        @ManyToOne val round: Round,
+        @OneToOne val member: Member,
+        @ManyToOne val team: Team
 )
 
 @Entity
 class Question(
-        @Id @GeneratedValue var id: Int,
-        var description: String,
-        @ManyToOne var round: Round,
-        var points: Int
+        @Id
+        @GeneratedValue
+        val id: Int,
+
+        val description: String,
+
+        @ManyToOne
+        val round: Round,
+
+        @OneToMany
+        @JoinColumn(name="question_id")
+        val answers: List<Answer>
+)
+
+@Entity
+class Answer(
+        @Id
+        @GeneratedValue
+        val id: Int,
+
+        val text: String,
+
+        val points: Int
 )
 
 @Entity
 class Response(
-        @Id @GeneratedValue var id: Int,
-        var dateCreated: Timestamp,
-        var applicableDate: Date,
-        @ManyToOne var question: Question,
-        var value: String,
-        @OneToOne var member: Member
+        @Id
+        @GeneratedValue
+        val id: Int,
+
+        val dateCreated: Timestamp,
+
+        val applicableDate: Date,
+
+        @ManyToOne
+        val question: Question,
+
+        val value: String,
+
+        @OneToOne
+        val member: Member
 )
