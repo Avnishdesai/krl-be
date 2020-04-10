@@ -6,39 +6,60 @@ import javax.persistence.*
 
 @Entity
 class Member(
-        @Id @GeneratedValue val id: Int,
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int,
+
         val name: String
 
 )
 
 @Entity
 class Round(
-        @Id @GeneratedValue val id: Int,
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int,
+
         val seq: Int,
+
         val startDate: Date,
+
         val endDate: Date
 )
 
 
 @Entity
 class Team(
-        @Id @GeneratedValue val id: Int,
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int,
+
         val name: String,
-        @ManyToOne val round: Round
+
+        @ManyToOne
+        val round: Round
 )
 
 @Entity
 class TeamMember(
-        @Id @GeneratedValue val id: Int,
-        @ManyToOne val round: Round,
-        @OneToOne val member: Member,
-        @ManyToOne val team: Team
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int,
+
+        @ManyToOne
+        val round: Round,
+
+        @OneToOne
+        val member: Member,
+
+        @ManyToOne
+        val team: Team
 )
 
 @Entity
 class Question(
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int,
 
         val description: String,
@@ -47,14 +68,14 @@ class Question(
         val round: Round,
 
         @OneToMany
-        @JoinColumn(name="question_id")
+        @JoinColumn(name = "question_id")
         val answers: List<Answer>
 )
 
 @Entity
 class Answer(
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int,
 
         val text: String,
@@ -65,17 +86,15 @@ class Answer(
 @Entity
 class Response(
         @Id
-        @GeneratedValue
-        val id: Int,
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int?,
 
-        val dateCreated: Timestamp,
+        val dateCreated: Timestamp?,
 
         val applicableDate: Date,
 
-        @ManyToOne
-        val question: Question,
-
-        val value: String,
+        @OneToOne
+        val answer: Answer,
 
         @OneToOne
         val member: Member

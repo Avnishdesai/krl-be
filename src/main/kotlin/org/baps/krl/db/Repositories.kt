@@ -10,12 +10,17 @@ interface RoundRepo: CrudRepository<Round, Int> {
     fun findCurrentRound(): Round
 }
 
-interface TeamRepo: CrudRepository<Team, Int> {}
+interface TeamRepo: CrudRepository<Team, Int>
 
 interface QuestionRepo: CrudRepository<Question, Int> {
     fun findAllByRound(round: Round): List<Question>
 }
 
-interface ResponseRepo: CrudRepository<Response, Int> {}
+interface ResponseRepo: CrudRepository<Response, Int> {
 
-interface TeamMemberRepo: CrudRepository<TeamMember, Int> {}
+    fun findAllByMember(member: Member): List<Response>
+}
+
+interface TeamMemberRepo: CrudRepository<TeamMember, Int>
+
+interface AnswerRepo: CrudRepository<Answer, Int>
