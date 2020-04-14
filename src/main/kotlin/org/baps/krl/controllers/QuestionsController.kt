@@ -1,10 +1,8 @@
-package org.baps.krl.Controllers
+package org.baps.krl.controllers
 
-import org.baps.krl.Services.QuestionsService
-import org.baps.krl.Services.RoundsService
-import org.baps.krl.Services.TeamsService
+import org.baps.krl.services.QuestionsService
+import org.baps.krl.services.RoundsService
 import org.baps.krl.db.Question
-import org.baps.krl.db.Team
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping

@@ -1,4 +1,4 @@
-package org.baps.krl.Services
+package org.baps.krl.services
 
 import org.baps.krl.db.*
 import org.springframework.beans.factory.annotation.Autowired

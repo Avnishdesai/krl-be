@@ -1,6 +1,6 @@
-package org.baps.krl.Services
+package org.baps.krl.services
 
-import org.baps.krl.DTOs.FormResponse
+import org.baps.krl.dto.FormResponse
 import org.baps.krl.db.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

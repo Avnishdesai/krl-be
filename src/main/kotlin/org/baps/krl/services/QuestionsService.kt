@@ -1,4 +1,4 @@
-package org.baps.krl.Services
+package org.baps.krl.services
 
 import org.baps.krl.db.Question
 import org.baps.krl.db.QuestionRepo

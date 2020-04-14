@@ -1,4 +1,4 @@
-package org.baps.krl.DTOs
+package org.baps.krl.dto
 
 import java.time.LocalDate
 

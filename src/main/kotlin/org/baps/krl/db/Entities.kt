@@ -8,9 +8,9 @@ import javax.persistence.*
 class Member(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
+        var id: Int?,
 
-        val name: String
+        var name: String
 
 )
 
@@ -18,13 +18,13 @@ class Member(
 class Round(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
+        var id: Int?,
 
-        val seq: Int,
+        var startDate: Date,
 
-        val startDate: Date,
+        var endDate: Date?,
 
-        val endDate: Date
+        var currentRound: Boolean
 )
 
 
@@ -32,70 +32,57 @@ class Round(
 class Team(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
+        var id: Int?,
 
-        val name: String,
+        var name: String,
 
-        @ManyToOne
-        val round: Round
-)
+        @ManyToOne(cascade = [CascadeType.ALL])
+        var round: Round,
 
-@Entity
-class TeamMember(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
-
-        @ManyToOne
-        val round: Round,
-
-        @OneToOne
-        val member: Member,
-
-        @ManyToOne
-        val team: Team
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "id")
+        var members: List<Member>
 )
 
 @Entity
 class Question(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
+        var id: Int?,
 
-        val description: String,
+        var description: String,
 
         @ManyToOne
-        val round: Round,
+        var round: Round,
 
         @OneToMany
         @JoinColumn(name = "question_id")
-        val answers: List<Answer>
+        var answers: List<Answer>
 )
 
 @Entity
 class Answer(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
+        var id: Int?,
 
-        val text: String,
+        var text: String,
 
-        val points: Int
+        var points: Int
 )
 
 @Entity
 class Response(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int?,
+        var id: Int?,
 
-        val dateCreated: Timestamp?,
+        var dateCreated: Timestamp?,
 
-        val applicableDate: Date,
-
-        @OneToOne
-        val answer: Answer,
+        var applicableDate: Date,
 
         @OneToOne
-        val member: Member
+        var answer: Answer,
+
+        @OneToOne
+        var member: Member
 )

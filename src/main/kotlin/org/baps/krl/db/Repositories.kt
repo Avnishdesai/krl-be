@@ -3,11 +3,12 @@ package org.baps.krl.db
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 
-interface MemberRepo: CrudRepository<Member, Int> {}
+interface MemberRepo: CrudRepository<Member, Int> {
+    fun findByName(name: String): Member
+}
 
 interface RoundRepo: CrudRepository<Round, Int> {
-    @Query("SELECT r FROM Round r WHERE r.endDate is null")
-    fun findCurrentRound(): Round
+    fun findByCurrentRound(isCurrentRound: Boolean): Round
 }
 
 interface TeamRepo: CrudRepository<Team, Int>
@@ -20,7 +21,5 @@ interface ResponseRepo: CrudRepository<Response, Int> {
 
     fun findAllByMember(member: Member): List<Response>
 }
-
-interface TeamMemberRepo: CrudRepository<TeamMember, Int>
 
 interface AnswerRepo: CrudRepository<Answer, Int>

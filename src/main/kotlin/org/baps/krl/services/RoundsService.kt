@@ -1,7 +1,5 @@
-package org.baps.krl.Services
+package org.baps.krl.services
 
-import org.baps.krl.db.Question
-import org.baps.krl.db.QuestionRepo
 import org.baps.krl.db.Round
 import org.baps.krl.db.RoundRepo
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,6 +14,6 @@ class RoundsService(
     }
 
     fun getCurrentRound(): Round{
-        return roundRepo.findCurrentRound()
+        return roundRepo.findByCurrentRound(true)
     }
 }
