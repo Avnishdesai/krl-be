@@ -16,3 +16,18 @@ data class MemberDTO (
 data class NewMembersDTO (
         val members: List<MemberDTO>
 )
+
+data class NewQuestionsDTO (
+        val roundId: Int,
+        val questions: List<QuestionDTO>
+)
+
+data class QuestionDTO (
+        val description: String,
+        val answers: List<AnswerDTO>
+)
+
+data class AnswerDTO (
+        val text: String,
+        val points: Int
+)

@@ -54,7 +54,7 @@ class Question(
         @ManyToOne
         var round: Round,
 
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.PERSIST])
         @JoinColumn(name = "question_id")
         var answers: List<Answer>
 )
