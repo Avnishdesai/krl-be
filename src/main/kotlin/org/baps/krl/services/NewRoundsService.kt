@@ -5,7 +5,9 @@ import org.baps.krl.dto.MemberDTO
 import org.baps.krl.dto.NewTeamsDTO
 import org.baps.krl.dto.TeamDTO
 import org.baps.krl.exceptions.DuplicateMemberInTeamException
+import org.baps.krl.exceptions.MemberDoesNotExistException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 import java.sql.Date
 import java.time.LocalDate
@@ -17,7 +19,7 @@ class NewRoundsService(
         @Autowired val teamRepo: TeamRepo
 ){
     fun addTeams(newTeamsDTO: NewTeamsDTO){
-        closeCurrentRound()
+//        closeCurrentRound()
         val round = newRound()
         roundsRepo.save(round)
 
@@ -26,14 +28,22 @@ class NewRoundsService(
         val newTeams = mutableListOf<Team>()
         newTeamsDTO.teams.forEach{team: TeamDTO ->
             val membersList = mutableListOf<Member>()
-            team.members.forEach{member: MemberDTO -> (
-                    if (names.contains(member.name)){
-                        duplicateMembers.add(member.name)
-                    } else {
+            for (member: MemberDTO in team.members){
+
+                if (names.contains(member.name)){
+                    duplicateMembers.add(member.name)
+                } else {
+                    try {
+                        val m = memberRepo.findByName(member.name)
                         names.add(member.name)
-                        membersList.add(memberRepo.findByName(member.name))
-                    })
+                        membersList.add(m)
+                    } catch (e: EmptyResultDataAccessException){
+                        throw MemberDoesNotExistException("Member does not exist: " + member.name)
+                    }
+
+                }
             }
+
 
             newTeams.add(Team(
                     id = null,

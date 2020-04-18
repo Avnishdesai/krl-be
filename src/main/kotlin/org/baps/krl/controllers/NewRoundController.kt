@@ -3,6 +3,7 @@ package org.baps.krl.controllers
 import org.baps.krl.dto.NewTeamsDTO
 import org.baps.krl.dto.NewMembersDTO
 import org.baps.krl.exceptions.DuplicateMemberInTeamException
+import org.baps.krl.exceptions.MemberDoesNotExistException
 import org.baps.krl.services.MembersService
 import org.baps.krl.services.NewRoundsService
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,6 +26,8 @@ class NewRoundConroller(
             return ResponseEntity("Teams Added", HttpStatus.OK)
         } catch (e: DuplicateMemberInTeamException) {
             return ResponseEntity("Duplicates " + e.message, HttpStatus.BAD_REQUEST)
+        } catch (e: MemberDoesNotExistException) {
+            return ResponseEntity("Member not found " + e.message, HttpStatus.BAD_REQUEST)
         }
 
     }
