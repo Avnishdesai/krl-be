@@ -2,6 +2,7 @@ package org.baps.krl.services
 
 import org.baps.krl.dto.FormResponse
 import org.baps.krl.db.*
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.sql.Date
@@ -16,6 +17,8 @@ class ResponsesService(
         @Autowired val roundsService: RoundsService,
         @Autowired val answerRepo: AnswerRepo
 ){
+    val logger = LoggerFactory.getLogger(javaClass)
+
     fun getApplicableSubmissionDates(memberId: Int): Set<LocalDate> {
         val m: Member = memberRepo.findById(memberId).orElse(null)
         val submittedDates = responseRepo.findAllByMember(m)
@@ -35,20 +38,26 @@ class ResponsesService(
             d = d.minusDays(1)
         }
 
-        return allDatesSet - submittedSet
+        val retSet = allDatesSet - submittedSet
+        println("Num returned dates: " + retSet.size)
+        return retSet
 
     }
 
     fun saveResponse(formResponse: FormResponse) {
-        formResponse.answerIds.forEach{answerId: Int ->
-            val response = Response(
-                    id = null,
-                    dateCreated = Timestamp.valueOf(LocalDateTime.now()),
-                    member = memberRepo.findById(formResponse.memberId).orElse(null),
-                    applicableDate = Date.valueOf(formResponse.date),
-                    answer = answerRepo.findById(answerId).orElse(null)
-            )
-            responseRepo.save(response)
-        }
+        try {
+            formResponse.answerIds.forEach { answerId: Int ->
+                val answer = memberRepo.findById(formResponse.memberId).orElse(null)
+                val response = Response(
+                        id = null,
+                        dateCreated = Timestamp.valueOf(LocalDateTime.now()),
+                        member = ,
+                        applicableDate = Date.valueOf(formResponse.date),
+                        answer = answerRepo.findById(answerId).orElse(null)
+                )
+                responseRepo.save(response)
+                logger.info("Response to save: {}", response)
+            }
+        } catch ()
     }
 }

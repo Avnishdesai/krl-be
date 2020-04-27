@@ -17,6 +17,7 @@ class MembersController(
     @CrossOrigin
     @GetMapping("/getMembers")
     fun getMembers(): Iterable<Member>{
+        println("Get Members")
         return membersService.getMembers()
     }
 

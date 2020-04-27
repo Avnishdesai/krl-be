@@ -16,6 +16,7 @@ class TeamsController(
     @CrossOrigin()
     @GetMapping("/getTeams")
     fun getGetAllTeams(): Iterable<Team>{
+        println("Get teams")
         return teamsRepo.findAll()
     }
 }

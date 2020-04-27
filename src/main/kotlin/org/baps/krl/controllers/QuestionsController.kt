@@ -17,13 +17,14 @@ class QuestionsController(
     @CrossOrigin()
     @GetMapping("/getQuestions")
     fun getQuestions(): Iterable<Question>{
+        println("Get Questions")
         return questionsService.getQuestions()
     }
 
     @CrossOrigin()
     @GetMapping("/getCurrentQuestions")
     fun getCurrentQuestions(): Iterable<Question>{
-
+        println("get current questions")
         return questionsService.getQuestionsByRound(roundsService.getCurrentRound())
     }
 }

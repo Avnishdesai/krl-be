@@ -5,7 +5,7 @@ import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
-class Member(
+data class Member(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
@@ -15,7 +15,7 @@ class Member(
 )
 
 @Entity
-class Round(
+data class Round(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
@@ -29,7 +29,7 @@ class Round(
 
 
 @Entity
-class Team(
+data class Team(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
@@ -44,7 +44,7 @@ class Team(
 )
 
 @Entity
-class Question(
+data class Question(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
@@ -60,7 +60,7 @@ class Question(
 )
 
 @Entity
-class Answer(
+data class Answer(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
@@ -71,7 +71,7 @@ class Answer(
 )
 
 @Entity
-class Response(
+data class Response(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
