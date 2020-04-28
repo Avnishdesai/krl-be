@@ -45,19 +45,17 @@ class ResponsesService(
     }
 
     fun saveResponse(formResponse: FormResponse) {
-        try {
+            val member = memberRepo.findById(formResponse.memberId).orElse(null)
             formResponse.answerIds.forEach { answerId: Int ->
-                val answer = memberRepo.findById(formResponse.memberId).orElse(null)
                 val response = Response(
                         id = null,
                         dateCreated = Timestamp.valueOf(LocalDateTime.now()),
-                        member = ,
+                        member = member,
                         applicableDate = Date.valueOf(formResponse.date),
                         answer = answerRepo.findById(answerId).orElse(null)
                 )
                 responseRepo.save(response)
                 logger.info("Response to save: {}", response)
             }
-        } catch ()
     }
 }
