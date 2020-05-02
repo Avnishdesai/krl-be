@@ -2,6 +2,7 @@ package org.baps.krl.services
 
 import org.baps.krl.dto.FormResponse
 import org.baps.krl.db.*
+import org.baps.krl.exceptions.NullAnswerProvidedException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -45,17 +46,18 @@ class ResponsesService(
     }
 
     fun saveResponse(formResponse: FormResponse) {
-            val member = memberRepo.findById(formResponse.memberId).orElse(null)
-            formResponse.answerIds.forEach { answerId: Int ->
-                val response = Response(
-                        id = null,
-                        dateCreated = Timestamp.valueOf(LocalDateTime.now()),
-                        member = member,
-                        applicableDate = Date.valueOf(formResponse.date),
-                        answer = answerRepo.findById(answerId).orElse(null)
-                )
-                responseRepo.save(response)
-                logger.info("Response to save: {}", response)
-            }
+        val member = memberRepo.findById(formResponse.memberId).orElse(null)
+        formResponse.answerIds.forEach { answerId: Int? ->
+            if (answerId == null) throw NullAnswerProvidedException("Please provide an answer for all questions.")
+            val response = Response(
+                    id = null,
+                    dateCreated = Timestamp.valueOf(LocalDateTime.now()),
+                    member = member,
+                    applicableDate = Date.valueOf(formResponse.date),
+                    answer = answerRepo.findById(answerId).orElse(null)
+            )
+            responseRepo.save(response)
+            logger.info("Response to save: {}", response)
+        }
     }
 }

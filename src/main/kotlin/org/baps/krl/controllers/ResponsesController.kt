@@ -1,6 +1,7 @@
 package org.baps.krl.controllers
 
 import org.baps.krl.dto.FormResponse
+import org.baps.krl.exceptions.NullAnswerProvidedException
 import org.baps.krl.services.ResponsesService
 import org.baps.krl.utils.LoggerProducer
 import org.slf4j.Logger
@@ -29,8 +30,14 @@ class ResponsesController(
     @PostMapping("/response")
     fun postResponse(@RequestBody formResponse: FormResponse): ResponseEntity<String>{
         logger.info("formResponse: {}", formResponse)
-        responsesService.saveResponse(formResponse)
-        return ResponseEntity("Response Stored", HttpStatus.OK)
+        try {
+            responsesService.saveResponse(formResponse)
+        } catch (e: NullAnswerProvidedException){
+            logger.error(e.message)
+            return ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
+        logger.info("Return Success")
+        return ResponseEntity(HttpStatus.OK)
 
     }
 }
